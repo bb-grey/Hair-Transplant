@@ -239,9 +239,9 @@ public class MainActivity extends AppCompatActivity {
         Imgproc.cvtColor(blurredImage, greyImage, Imgproc.COLOR_BGR2GRAY);
 
         Imgproc.adaptiveThreshold(greyImage, greyImage, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY_INV, blockSize % 2 == 0 ? blockSize + 1 : blockSize, constant);
+        Imgproc.morphologyEx(greyImage, greyImage, Imgproc.MORPH_OPEN, Mat.ones(3, 3, 0), new Point(-1, 1), 1);
 
 //        Imgproc.morphologyEx(greyImage, greyImage, Imgproc.MORPH_OPEN, Mat.ones(3, 3, 0), new Point(-1, 1));
-
         List<MatOfPoint> contours = new ArrayList<>();
         Imgproc.findContours(greyImage, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
