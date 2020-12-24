@@ -222,8 +222,8 @@ public class MainActivity extends AppCompatActivity {
             bitmapImage = bitmapImage.copy(Bitmap.Config.ARGB_8888, true);
             Utils.bitmapToMat(bitmapImage, originalImage);
 
-            textView_unwantedArea.setVisibility(View.INVISIBLE);
-            textView_blockSize.setVisibility(View.INVISIBLE);
+            textView_unwantedArea.setVisibility(View.VISIBLE);
+            textView_blockSize.setVisibility(View.VISIBLE);
             blockSizeSeekBar.setVisibility(View.VISIBLE);
             constantSeekBar.setVisibility(View.VISIBLE);
         }
