@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView dotsLengthView;
     private SeekBar blockSizeSeekBar;
     private SeekBar constantSeekBar;
+    private TextView textView_unwantedArea;
+    private TextView textView_blockSize;
     private Bitmap bitmapImage;
     private int blockSize = 9;
     private int constant = 0;
@@ -73,6 +75,12 @@ public class MainActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.imageView);
         dotsLengthView = findViewById(R.id.textView_dots);
+
+        textView_unwantedArea = findViewById(R.id.textView_unwantedArea);
+        textView_blockSize = findViewById(R.id.textView_dotSize);
+
+        textView_unwantedArea.setVisibility(View.INVISIBLE);
+        textView_blockSize.setVisibility(View.INVISIBLE);
 
         Button uploadButton = findViewById(R.id.button_upload);
         Button findDotsButton = findViewById(R.id.button_findDots);
@@ -207,6 +215,9 @@ public class MainActivity extends AppCompatActivity {
         if(bitmapImage != null){
             bitmapImage = bitmapImage.copy(Bitmap.Config.ARGB_8888, true);
             Utils.bitmapToMat(bitmapImage, originalImage);
+
+            textView_unwantedArea.setVisibility(View.INVISIBLE);
+            textView_blockSize.setVisibility(View.INVISIBLE);
             blockSizeSeekBar.setVisibility(View.VISIBLE);
             constantSeekBar.setVisibility(View.VISIBLE);
         }

@@ -57,21 +57,37 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:paddingStart="64dip"
-        android:paddingEnd="64dip"
         app:layout_constraintBottom_toTopOf="@+id/button_findDots"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/seekBar_constant" />
 
     <SeekBar
         android:id="@+id/seekBar_constant"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginBottom="16dp"
-        android:paddingStart="64dip"
-        android:paddingEnd="64dip"
         app:layout_constraintBottom_toTopOf="@+id/seekbar_blockSize"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/textView_unwantedArea" />
+
+    <TextView
+        android:id="@+id/textView_unwantedArea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/text_remove_area"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_dots" />
+
+    <TextView
+        android:id="@+id/textView_dotSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/text_dot_size"
+        app:layout_constraintStart_toStartOf="@+id/textView_unwantedArea"
+        app:layout_constraintTop_toBottomOf="@+id/textView_unwantedArea" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

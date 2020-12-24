@@ -3,4 +3,7 @@
     <string name="upload">Upload Image</string>
     <string name="image_content">Image</string>
     <string name="find_dots">Find Dots</string>
+
+    <string name="text_remove_area">Remove unwanted area</string>
+    <string name="text_dot_size">Configure dot size</string>
 </resources>
