@@ -67,6 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginBottom="16dp"
+        android:max="20"
         app:layout_constraintBottom_toTopOf="@+id/seekbar_blockSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView_unwantedArea" />
