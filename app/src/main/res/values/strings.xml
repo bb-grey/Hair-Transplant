@@ -7,4 +7,5 @@
     <string name="text_remove_area">Remove unwanted area</string>
     <string name="text_dot_size">Configure dot size</string>
     <string name="title_edit">Edit</string>
+    <string name="upldate_image_msg">Plase Upload an image first</string>
 </resources>

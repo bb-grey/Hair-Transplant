@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -45,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView_unwantedArea;
     private TextView textView_blockSize;
     private Bitmap bitmapImage;
-    private int blockSize = 9;
-    private int constant = 0;
+    private int blockSize = 11;
+    private int constant = 2;
 
     private Mat originalImage;
     private Mat greyImage;
@@ -94,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                } else{
+                    Toast.makeText(MainActivity.this, getResources().
+                            getString(R.string.upldate_image_msg), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -109,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         blockSizeSeekBar.setProgress(blockSize);
         constantSeekBar.setProgress(constant);
-//        blockSizeSeekBar.setMax(501);
+
         blockSizeSeekBar.setVisibility(View.INVISIBLE);
         constantSeekBar.setVisibility(View.INVISIBLE);
 
