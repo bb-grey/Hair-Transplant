@@ -125,7 +125,11 @@ public class MainActivity extends AppCompatActivity {
                     blockSize = 3;
                 }
                 else{
-                    blockSize = i;
+                    if(i % 2 == 0){
+                        blockSize = i + 1;
+                    } else{
+                        blockSize = i;
+                    }
                 }
                 detectDots();
             }
@@ -144,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         constantSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                constant = i;
+                constant = seekBar.getProgress();
                 detectDots();
             }
 
@@ -234,7 +238,8 @@ public class MainActivity extends AppCompatActivity {
 
         Utils.bitmapToMat(bitmapImage, originalImage);
         blurredImage = new Mat();
-        Imgproc.medianBlur(originalImage, blurredImage, 5);
+//        Imgproc.medianBlur(originalImage, blurredImage, 5);
+        blurredImage = originalImage.clone();
         detectDots();
 
 //        Mat imgResult = originalImage.clone();
@@ -259,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
 
         Imgproc.cvtColor(blurredImage, greyImage, Imgproc.COLOR_BGR2GRAY);
 
-        Imgproc.adaptiveThreshold(greyImage, greyImage, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY_INV, blockSize % 2 == 0 ? blockSize + 1 : blockSize, constant);
+        Imgproc.adaptiveThreshold(greyImage, greyImage, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY_INV, blockSize, constant);
         Imgproc.morphologyEx(greyImage, greyImage, Imgproc.MORPH_OPEN, Mat.ones(3, 3, 0), new Point(-1, 1), 1);
 
 //        Imgproc.morphologyEx(greyImage, greyImage, Imgproc.MORPH_OPEN, Mat.ones(3, 3, 0), new Point(-1, 1));
