@@ -1,11 +1,14 @@
 package com.bahmad.hairtransplant;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
@@ -13,6 +16,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,6 +38,9 @@ import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,19 +60,16 @@ public class MainActivity extends AppCompatActivity {
     private Mat greyImage;
     private Mat blurredImage;
 
+    private final int REQUEST_EDIT_IMAGE = 1;
+
     private final BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
-            switch (status) {
-                case LoaderCallbackInterface.SUCCESS:
-                {
-//                    Log.i("OpenCV", "OpenCV loaded successfully");
-                    //imageMat=new Mat();
-                } break;
-                default:
-                {
-                    super.onManagerConnected(status);
-                } break;
+            if (status == LoaderCallbackInterface.SUCCESS) {
+                // Log.i("OpenCV", "OpenCV loaded successfully");
+                //imageMat=new Mat();
+            } else {
+                super.onManagerConnected(status);
             }
         }
     };
@@ -84,29 +88,7 @@ public class MainActivity extends AppCompatActivity {
         textView_unwantedArea.setVisibility(View.INVISIBLE);
         textView_blockSize.setVisibility(View.INVISIBLE);
 
-        Button uploadButton = findViewById(R.id.button_upload);
-        Button findDotsButton = findViewById(R.id.button_findDots);
-        findDotsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(bitmapImage != null){
-                    try {
-                        countDots();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else{
-                    Toast.makeText(MainActivity.this, getResources().
-                            getString(R.string.upldate_image_msg), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        uploadButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                CropImage.startPickImageActivity(MainActivity.this);
-            }
-        });
+
 
         blockSizeSeekBar = findViewById(R.id.seekbar_blockSize);
         constantSeekBar = findViewById(R.id.seekBar_constant);
@@ -182,6 +164,35 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_edit){
+            if(bitmapImage != null){
+                String fileName = createImageFile();
+                if(fileName != null){
+                    Intent intent = new Intent(this, EditImageActivity.class);
+                    startActivityForResult(intent, REQUEST_EDIT_IMAGE);
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private String createImageFile(){
+        String fileName = "myImage";
+        try{
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            FileOutputStream fileOutputStream = openFileOutput(fileName, Context.MODE_PRIVATE);
+            fileOutputStream.write(bytes.toByteArray());
+            fileOutputStream.close();
+            bytes.close();
+        } catch(Exception ex){
+            fileName = null;
+        }
+        return fileName;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -210,6 +221,14 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     imageView.setImageBitmap(bitmapImage);
+                }
+            }
+            if(requestCode == REQUEST_EDIT_IMAGE){
+                try{
+                    bitmapImage = BitmapFactory.decodeStream(openFileInput("myImage"));
+                    imageView.setImageBitmap(bitmapImage);
+                } catch (FileNotFoundException ex){
+                    ex.printStackTrace();
                 }
             }
         }
@@ -277,6 +296,22 @@ public class MainActivity extends AppCompatActivity {
         Bitmap imgBitmap = Bitmap.createBitmap(imgResult.cols(), imgResult.rows(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(imgResult, imgBitmap);
         imageView.setImageBitmap(imgBitmap);
+    }
 
+    public void onClickFindDots(View view){
+        if(bitmapImage != null){
+            try {
+                countDots();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else{
+            Toast.makeText(MainActivity.this, getResources().
+                    getString(R.string.upldate_image_msg), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void onClickUploadImage(View view){
+        CropImage.startPickImageActivity(MainActivity.this);
     }
 }

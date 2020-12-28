@@ -8,4 +8,6 @@
     <string name="text_dot_size">Configure dot size</string>
     <string name="title_edit">Edit</string>
     <string name="upldate_image_msg">Plase Upload an image first</string>
+
+    <string name="button_done">Done!</string>
 </resources>
