@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.SeekBar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -21,7 +23,7 @@ public class EditImageActivity extends AppCompatActivity {
     private Bitmap image;
     private PhotoEditorView editorView;
     private PhotoEditor photoEditor;
-
+    private int eraserSize = 6;
     private final String fileName = "myImage";
 
     @Override
@@ -39,7 +41,30 @@ public class EditImageActivity extends AppCompatActivity {
 
         photoEditor = new PhotoEditor.Builder(this, editorView).build();
         photoEditor.setBrushDrawingMode(true);
+        photoEditor.setBrushEraserSize((float)eraserSize);
         photoEditor.setBrushColor(0xFFFFFFFF);
+
+        SeekBar seekBar = findViewById(R.id.seekBar_eraser);
+        seekBar.setProgress(eraserSize - 1);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                eraserSize = seekBar.getProgress() + 1;
+                photoEditor.setBrushSize((float)eraserSize);
+
+                Log.d("Eraser", String.valueOf(eraserSize));
+            }
+        });
     }
 
     public void onClickDone(View view){

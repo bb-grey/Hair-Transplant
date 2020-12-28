@@ -10,4 +10,5 @@
     <string name="upldate_image_msg">Plase Upload an image first</string>
 
     <string name="button_done">Done!</string>
+    <string name="text_eraserSize">Adjust eraser size</string>
 </resources>
