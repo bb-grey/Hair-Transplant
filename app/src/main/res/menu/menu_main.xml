@@ -7,4 +7,11 @@
         android:icon="@drawable/icon_eraser"
         android:orderInCategory="1"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_cut"
+        android:title="@string/cut"
+        android:icon="@drawable/icon_cut"
+        android:orderInCategory="2"
+        app:showAsAction="ifRoom" />
 </menu>

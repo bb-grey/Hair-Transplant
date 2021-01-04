@@ -174,6 +174,8 @@ public class MainActivity extends AppCompatActivity {
                     startActivityForResult(intent, REQUEST_EDIT_IMAGE);
                 }
             }
+        } else if(item.getItemId() == R.id.action_cut){
+
         }
         return super.onOptionsItemSelected(item);
     }

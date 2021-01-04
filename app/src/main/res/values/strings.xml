@@ -11,4 +11,5 @@
 
     <string name="button_done">Done!</string>
     <string name="text_eraserSize">Adjust eraser size</string>
+    <string name="cut">Cut</string>
 </resources>
