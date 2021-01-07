@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private Mat blurredImage;
 
     private final int REQUEST_EDIT_IMAGE = 1;
+    final static int REQUEST_CUT_IMAGE = 2;
 
     private final BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -175,6 +176,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         } else if(item.getItemId() == R.id.action_cut){
+            if(bitmapImage != null){
+                String fileName = createImageFile();
+                if(fileName != null){
+                    try{
+                        Intent intent = new Intent(this, CutImageActivity.class);
+                        startActivityForResult(intent, REQUEST_CUT_IMAGE);
+                    } catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+                }
+            }
 
         }
         return super.onOptionsItemSelected(item);
@@ -225,7 +237,15 @@ public class MainActivity extends AppCompatActivity {
                     imageView.setImageBitmap(bitmapImage);
                 }
             }
-            if(requestCode == REQUEST_EDIT_IMAGE){
+            if(requestCode == REQUEST_EDIT_IMAGE || requestCode == REQUEST_CUT_IMAGE){
+                try{
+                    bitmapImage = BitmapFactory.decodeStream(openFileInput("myImage"));
+                    imageView.setImageBitmap(bitmapImage);
+                } catch (FileNotFoundException ex){
+                    ex.printStackTrace();
+                }
+            }
+            if(requestCode == REQUEST_CUT_IMAGE){
                 try{
                     bitmapImage = BitmapFactory.decodeStream(openFileInput("myImage"));
                     imageView.setImageBitmap(bitmapImage);
